@@ -21,7 +21,7 @@ def fetch_movie_poster(movie_title, api_key):
 api_key = 'ed7d4a0'
 movie_title = 'Inception'  # Example movie title
 fetch_movie_poster(movie_title, api_key)
-movies = pickle.load(open('MOVIES.pkl','rb'))
+
 similarity1 = pickle.load(open('similarity1.pkl','rb'))
 similarity2 = pickle.load(open('similarity2.pkl','rb'))
 
