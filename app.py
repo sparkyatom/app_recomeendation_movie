@@ -3,6 +3,7 @@ import pickle
 import pandas as pd
 import requests
 import requests
+import numpy as np
 
 def fetch_movie_poster(movie_title, api_key):
     url = f"http://www.omdbapi.com/?t={movie_title}&apikey={api_key}"
@@ -21,15 +22,18 @@ api_key = 'ed7d4a0'
 movie_title = 'Inception'  # Example movie title
 fetch_movie_poster(movie_title, api_key)
 movies = pickle.load(open('MOVIES.pkl','rb'))
-similarity = pickle.load(open('similarity.pkl','rb'))
+similarity1 = pickle.load(open('similarity1.pkl','rb'))
+similarity2 = pickle.load(open('similarity2.pkl','rb'))
 movies_dict = pickle.load(open('MOVIES_dict.pkl','rb'))
 movies_dict=pd.DataFrame(movies_dict)
 st.title("Movie Recomender System")
 def recommend(movie):
     #fetching event
     movie_index = movies_dict[movies_dict['title'] == movie].index[0]
-    distances=similarity[movie_index]
-    movies_list=sorted(list(enumerate(distances)),reverse=True,key=lambda x:x[1])[1:6]
+    distance1=similarity1[movie_index]
+    distance2=similarity2[movie_index]
+    distance=np.concatenate((distance1,distance2),axis=0)
+    movies_list=sorted(list(enumerate(distance)),reverse=True,key=lambda x:x[1])[1:6]
     re=[]
     for i in movies_list:
         movie_id=i[1]
